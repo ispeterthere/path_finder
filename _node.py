@@ -1,5 +1,12 @@
 import pygame
+import math
+from queue import PriorityQueue
 
+# Size of the screen
+WIDTH = 800
+# Since we are creating a Square we can use the Width for both length and width
+WIN = pygame.display.set_mode(WIDTH, WIDTH)
+pygame.display.set_caption("A* Path Finding Algorithm")
 # Constant Colors that will be used
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
@@ -77,3 +84,15 @@ class Node:
     def __lessthan__(self, other):
         return False
 
+
+# Calculates using Manhattan distance
+# Think of an L between the two points
+def heuristic(point1, point2):
+    x1, y1 = point1
+    x2, y2 = point2
+    return abs(x1 - x2) + (y1 - y2)
+
+# create a grid using the number of rows and the width of entire grid
+def make_grid(rows, width):
+    grid = []
+    gap = width
