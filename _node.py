@@ -1,4 +1,5 @@
 import pygame
+
 # Constant Colors that will be used
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
@@ -70,4 +71,9 @@ class Node:
     def draw(self, win):
         pygame.draw.rect(win, self.color, (self.x, self.y, self.width, self.width))
 
+    def update_neighbors(self, grid):
+        pass
+
+    def __lessthan__(self, other):
+        return False
 
