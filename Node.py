@@ -1,3 +1,4 @@
+import pygame
 # Constant Colors that will be used
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
@@ -27,17 +28,46 @@ class Node:
     def get_pos(self):
         return self.row, self.col
 
-    # Return the color red when Node is closed
+    # Return the color Red when Node is closed
     def is_closed(self):
         return self.color == RED
 
-    # Return the color green when Node is open
+    # Return the color Green when Node is open
     def is_open(self):
         return self.color == GREEN
 
-    # Return the color black when Node is a barrier
+    # Return the color Black when Node is a barrier
     def is_barrier(self):
         return self.color == BLACK
 
+    # Return the color Orange when is the Start Node
     def is_start(self):
         return self.color == ORANGE
+
+    # Return the color Turquoise when is the Start Node
+    def is_end(self):
+        return self.color == TURQUOISE
+
+    # Reset the color of the Node to White
+    def reset(self):
+        return self.color == WHITE
+
+    def make_close(self):
+        self.color = RED
+
+    def make_open(self):
+        self.color = GREEN
+
+    def make_barrier(self):
+        self.color = BLACK
+
+    def make_end(self):
+        self.color = TURQUOISE
+
+    def make_path(self):
+        self.color = PURPLE
+
+    def draw(self, win):
+        pygame.draw.rect(win, self.color, (self.x, self.y, self.width, self.width))
+
+
