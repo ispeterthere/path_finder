@@ -99,7 +99,7 @@ class Node:
         if self.col < self.total_rows - 1 and not grid[self.row][self.col + 1].is_barrier():  # Moving Right
             self.neighbors.append(grid[self.row][self.col + 1])
 
-        if self.row > 0 and not grid[self.row][self.col - 1].is_barrier():  # Moving Left
+        if self.col > 0 and not grid[self.row][self.col - 1].is_barrier():  # Moving Left
             self.neighbors.append(grid[self.row][self.col - 1])
 
     def __lessthan__(self, other):
@@ -226,7 +226,7 @@ def get_clicked_pos(pos, rows, width):
 
 # this is the Main loop
 def main(win, width):
-    ROWS = 5  # Amount of Rows to draw
+    ROWS = 50  # Amount of Rows to draw
     grid = make_grid(ROWS, width)
     # Initialize the start and end position
     start = None

@@ -4,6 +4,7 @@
     <list default="true" id="b36c8c39-1458-481e-9e10-31abbbaa2768" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Node.py" beforeDir="false" afterPath="$PROJECT_DIR$/Node.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/astar.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,7 +21,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="new_feature" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -60,7 +61,7 @@
       <recent name="C:\Users\Coding\Algorithms" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.astar (1)">
+  <component name="RunManager" selected="Python.Node">
     <configuration name="Node" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -134,8 +135,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.astar (1)" />
         <item itemvalue="Python.Node" />
+        <item itemvalue="Python.astar (1)" />
         <item itemvalue="Python.astar" />
       </list>
     </recent_temporary>
@@ -154,7 +155,7 @@
       <workItem from="1613421264861" duration="1440000" />
       <workItem from="1613423131000" duration="3128000" />
       <workItem from="1613431680176" duration="4550000" />
-      <workItem from="1616000927427" duration="6883000" />
+      <workItem from="1616000927427" duration="7198000" />
     </task>
     <task id="LOCAL-00001" summary="Created Node File">
       <created>1613410713041</created>
@@ -219,7 +220,14 @@
       <option name="project" value="LOCAL" />
       <updated>1616006253487</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Added Alogrith Function to calculate the g and f scores">
+      <created>1616008147033</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1616008147033</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -277,7 +285,7 @@
     <option name="LAST_COMMIT_MESSAGE" value="Added Alogrith Function to calculate the g and f scores" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/path_finder$Node.coverage" NAME="Node Coverage Results" MODIFIED="1616008002542" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/path_finder$Node.coverage" NAME="Node Coverage Results" MODIFIED="1616008344137" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/path_finder$astar__1_.coverage" NAME="astar (1) Coverage Results" MODIFIED="1616008054449" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/path_finder$astar.coverage" NAME="astar Coverage Results" MODIFIED="1616006360856" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/Downloads/astar" />
     <SUITE FILE_PATH="coverage/path_finder$_node.coverage" NAME="Node Coverage Results" MODIFIED="1613436802137" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
