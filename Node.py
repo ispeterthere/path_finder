@@ -12,7 +12,7 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 255, 0)
 YELLOW = (255, 255, 0)
-WHITE = (255, 255, 0)
+WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 PURPLE = (128, 0, 128)
 ORANGE = (255, 165, 0)
@@ -113,24 +113,27 @@ class Node:
 def heuristic(point1, point2):
     x1, y1 = point1
     x2, y2 = point2
-    return abs(x1 - x2) + (y1 - y2)
-#Current is the end node that we are currently at
+    return abs(x1 - x2) + abs(y1 - y2)
+
+
+# Current is the end node that we are currently at
 def reconstruct_path(came_from, current, draw):
     while current in came_from:
         current = came_from[current]
         current.make_path()
         draw()
 
+
 # draw is a function
 def algorithm(draw, grid, start, end):
     count = 0
-    #Priority Queue has the smallest value at the beginning
+    # Priority Queue has the smallest value at the beginning
     open_set = PriorityQueue()  # does not keep track of the items in the queue
     # The first number is the F score of first node
     open_set.put((0, count, start))
     came_from = {}  # Dictionary to Keep track of the path traveled from
     g_score = {node: float("inf") for row in grid for node in row}  # set the G score of all node to infinity
-    g_score[start] = 0 #g score is the distance
+    g_score[start] = 0  # g score is the distance
 
     f_score = {node: float("inf") for row in grid for node in row}  # set the f score of all node to infinity
     f_score[start] = heuristic(start.get_pos(), end.get_pos())  # Get the f score from start to end
@@ -149,24 +152,29 @@ def algorithm(draw, grid, start, end):
 
         if current == end:  # If the popped node is the end node the algorithm finished
             reconstruct_path(came_from, end, draw)
+            end.make_end()
             return True  # Make the path and
 
         for neighbor in current.neighbors:
             temp_g_score = g_score[current] + 1  # currently shortest distance and add 1
-            if temp_g_score < g_score[neighbor]:  # If a better neighbor is found update g and f score of current neighbor
+
+            if temp_g_score < g_score[
+                neighbor]:  # If a better neighbor is found update g and f score of current neighbor
                 came_from[neighbor] = current
                 g_score[neighbor] = temp_g_score
                 f_score[neighbor] = temp_g_score + heuristic(neighbor.get_pos(), end.get_pos())
+
                 if neighbor not in open_set_hash:
-                    count += 1 #which node currently on
-                    open_set.put((f_score[neighbor], count, neighbor)) #Add the neighbor to possible node set
-                    open_set_hash.add(neighbor) #Add possible neighbor to the hash
+                    count += 1  # which node currently on
+                    open_set.put((f_score[neighbor], count, neighbor))  # Add the neighbor to possible node set
+                    open_set_hash.add(neighbor)  # Add possible neighbor to the hash
                     neighbor.make_open()
 
         draw()
 
-        if current != start: #If the current node is not a starting node close it
+        if current != start:  # If the current node is not a starting node close it
             current.make_close()
+
 
 # create a grid to hold each node using the number of rows and the width of entire grid
 # rows is the
@@ -218,7 +226,7 @@ def get_clicked_pos(pos, rows, width):
 
 # this is the Main loop
 def main(win, width):
-    ROWS = 50  # Amount of Rows to draw
+    ROWS = 5  # Amount of Rows to draw
     grid = make_grid(ROWS, width)
     # Initialize the start and end position
     start = None
@@ -262,12 +270,16 @@ def main(win, width):
                     end = None
 
             if event.type == pygame.KEYDOWN:  # If the spacebar is pressed it updated the neighbors list
-                if event.key == pygame.K_SPACE and not started:
+                if event.key == pygame.K_SPACE and start and end:
                     for row in grid:
                         for node in row:
                             node.update_neighbors(grid)
                     algorithm(lambda: draw(win, grid, ROWS, width), grid, start, end)
 
+                if event.key == pygame.K_c:
+                    start = None
+                    end = None
+                    grid = make_grid(ROWS, width)
     pygame.quit()
 
 
