@@ -58,7 +58,7 @@ class Node:
 
     # Reset the color of the Node
     def reset(self):
-        return self.color == WHITE
+        self.color = WHITE
 
     # Make a node start by assignin color
     def make_start(self):
@@ -112,8 +112,8 @@ def make_grid(rows, width):
     for i in range(rows):
         grid.append([])
         for j in range(rows):
-            spot = Spot(i, j, gap, rows)  # Insert a Spot object into the grid list
-            grid[i].append(spot)
+            node = Node(i, j, gap, rows)  # Insert a Spot object into the grid list
+            grid[i].append(node)
 
     return grid
 
@@ -134,8 +134,8 @@ def draw(win, grid, rows, width):
     win.fill(WHITE)  # At the beginning of every frame with white to update
 
     for row in grid:
-        for spot in row:
-            spot.draw(win)  # Calls draw function that colors each node
+        for node in row:
+            node.draw(win)  # Calls draw function that colors each node
 
     draw_grid(win, rows, width)  # Draws the gridline
     pygame.display.update()  # Update the game screen
@@ -147,7 +147,7 @@ def get_clicked_pos(pos, rows, width):
     GAP = width // rows
     y, x = pos
 
-    row = i // GAP
+    row = y // GAP
     col = x // GAP
     return row, col
 
@@ -172,22 +172,35 @@ def main(win, width):
             if started:  # If the algorithm has started not allow interruption to algorithm or modify nodes
                 continue
 
-            if pygame.mouse.get_pressed(0):  # Left
+            if pygame.mouse.get_pressed()[0]:  # Left
                 pos = pygame.mouse.get_pos()  # Get the current position of the mouse
                 row, col = get_clicked_pos(pos, ROWS,
                                            width)  # Use helper function to get the X Y coordinate of the node
-                spot = grid[row][col]  # Index the Row and Column in the grid assigning to spot
-                if not start:  # If no start position is selected make the next Clicked on Node the start node
-                    start = spot
+                node = grid[row][col]  # Index the Row and Column in the grid assigning to Node
+                if not start and node != end:  # If no start position is selected make the next Clicked on Node the start node
+                    start = node
                     start.make_start()
-                elif not end:
-                    end = spot  # Make the current spot an end by assigning color
+                elif not end and node != start:
+                    end = node  # Make the current spot an end by assigning color
                     end.make_end()
                 # If the spot clicked on is not a start or ending point then barriers will be created
-                elif spot != end and spot != start:
-                    spot.make_barrier()
-            elif pygame.mouse.get_pressed(0):  # Right
-                pass
+                elif node != end and node != start:
+                    node.make_barrier()
+            elif pygame.mouse.get_pressed()[2]:  # Right
+                pos = pygame.mouse.get_pos()  # Get the current position of the mouse
+                row, col = get_clicked_pos(pos, ROWS,
+                                           width)  # Use helper function to get the X Y coordinate of the node
+                node = grid[row][col]  # Index the Row and Column in the grid assigning to Node
+                node.reset()  # Reset current node
+                if node == start: #Reset start Position
+                    start = None
+                elif node == end: #Reset end Position
+                    end = None
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE and not started:
+
     pygame.quit()
+
 
 main(WIN, WIDTH)
