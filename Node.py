@@ -88,7 +88,19 @@ class Node:
         pygame.draw.rect(win, self.color, (self.x, self.y, self.width, self.width))
 
     def update_neighbors(self, grid):
-        pass
+        self.neighbors = []
+        # self.row < self.total_rows - 1 checks it is not the last row
+        if self.row < self.total_rows - 1 and not grid[self.row + 1][self.col].is_barrier():  # Moving Down
+            self.neighbors.append(grid[self.row + 1][self.col])  # if not a barrier Add to the neighbor list
+
+        if self.row > 0 and not grid[self.row - 1][self.col].is_barrier():  # Moving UP
+            self.neighbors.append(grid[self.row - 1][self.col])
+
+        if self.col < self.total_rows - 1 and not grid[self.row][self.col + 1].is_barrier():  # Moving Right
+            self.neighbors.append(grid[self.row][self.col + 1])
+
+        if self.row > 0 and not grid[self.row][self.col - 1].is_barrier():  # Moving Left
+            self.neighbors.append(grid[self.row][self.col - 1])
 
     def __lessthan__(self, other):
         return False
@@ -102,7 +114,59 @@ def heuristic(point1, point2):
     x1, y1 = point1
     x2, y2 = point2
     return abs(x1 - x2) + (y1 - y2)
+#Current is the end node that we are currently at
+def reconstruct_path(came_from, current, draw):
+    while current in came_from:
+        current = came_from[current]
+        current.make_path()
+        draw()
 
+# draw is a function
+def algorithm(draw, grid, start, end):
+    count = 0
+    #Priority Queue has the smallest value at the beginning
+    open_set = PriorityQueue()  # does not keep track of the items in the queue
+    # The first number is the F score of first node
+    open_set.put((0, count, start))
+    came_from = {}  # Dictionary to Keep track of the path traveled from
+    g_score = {node: float("inf") for row in grid for node in row}  # set the G score of all node to infinity
+    g_score[start] = 0 #g score is the distance
+
+    f_score = {node: float("inf") for row in grid for node in row}  # set the f score of all node to infinity
+    f_score[start] = heuristic(start.get_pos(), end.get_pos())  # Get the f score from start to end
+
+    # checks and keeps track of all the items in the priority queue and not in
+    open_set_hash = {start}
+
+    while not open_set.empty():
+        # A way to exit the loop if user presses quit
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+
+        current = open_set.get()[2]  # Popping the lowest value F score
+        open_set_hash.remove(current)  # remove any duplicates
+
+        if current == end:  # If the popped node is the end node the algorithm finished
+            reconstruct_path(came_from, end, draw)
+            return True  # Make the path and
+
+        for neighbor in current.neighbors:
+            temp_g_score = g_score[current] + 1  # currently shortest distance and add 1
+            if temp_g_score < g_score[neighbor]:  # If a better neighbor is found update g and f score of current neighbor
+                came_from[neighbor] = current
+                g_score[neighbor] = temp_g_score
+                f_score[neighbor] = temp_g_score + heuristic(neighbor.get_pos(), end.get_pos())
+                if neighbor not in open_set_hash:
+                    count += 1 #which node currently on
+                    open_set.put((f_score[neighbor], count, neighbor)) #Add the neighbor to possible node set
+                    open_set_hash.add(neighbor) #Add possible neighbor to the hash
+                    neighbor.make_open()
+
+        draw()
+
+        if current != start: #If the current node is not a starting node close it
+            current.make_close()
 
 # create a grid to hold each node using the number of rows and the width of entire grid
 # rows is the
@@ -192,13 +256,17 @@ def main(win, width):
                                            width)  # Use helper function to get the X Y coordinate of the node
                 node = grid[row][col]  # Index the Row and Column in the grid assigning to Node
                 node.reset()  # Reset current node
-                if node == start: #Reset start Position
+                if node == start:  # Reset start Position
                     start = None
-                elif node == end: #Reset end Position
+                elif node == end:  # Reset end Position
                     end = None
 
-            if event.type == pygame.KEYDOWN:
+            if event.type == pygame.KEYDOWN:  # If the spacebar is pressed it updated the neighbors list
                 if event.key == pygame.K_SPACE and not started:
+                    for row in grid:
+                        for node in row:
+                            node.update_neighbors(grid)
+                    algorithm(lambda: draw(win, grid, ROWS, width), grid, start, end)
 
     pygame.quit()
 
